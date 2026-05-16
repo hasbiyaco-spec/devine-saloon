@@ -1,12 +1,12 @@
 // ================= FIREBASE CONFIG =================
-// अपने Firebase Project की config यहाँ डालें (Firebase Console से)
+// ⚠️ अपने Firebase Project की config यहाँ डालें (Firebase Console से)
 const firebaseConfig = {
   apiKey: "AIzaSyDJQAFJQ1bYDTJ-9u40DACYf2twC1WcRpk",
   authDomain: "devine-saloon.firebaseapp.com",
   projectId: "devine-saloon",
   storageBucket: "devine-saloon.firebasestorage.app",
   messagingSenderId: "688719858618",
-  appId: "1:688719858618:web:31d588e045e078d5ffeb83",
+  appId: "1:688719858618:web:31d588e045e078d5ffeb83"
   measurementId: "G-T2LTK645YN"
 };
 
@@ -31,7 +31,8 @@ import {
   onSnapshot,
   addDoc,
   updateDoc,
-  serverTimestamp
+  serverTimestamp,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Initialize Firebase
@@ -40,9 +41,9 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // ================= GLOBAL STATE =================
-let currentUser = null;          // Firebase Auth user
-let userRole = null;            // "customer" or "barber"
-let currentListeners = [];      // Real-time listener cleanup functions
+let currentUser = null;
+let userRole = null;
+let currentListeners = [];
 
 // ================= HELPER: Clear old listeners =================
 function clearListeners() {
@@ -53,7 +54,6 @@ function clearListeners() {
 // ================= ROUTING (Hash-based) =================
 window.addEventListener("hashchange", () => {
   if (currentUser) {
-    // Already logged in – redirect based on role
     if (userRole === "barber") renderBarberDashboard();
     else if (userRole === "customer") renderCustomerDashboard();
     else renderHome();
@@ -86,11 +86,9 @@ function handleRoute() {
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-    // Fetch user role from Firestore
     const userDoc = await getDoc(doc(db, "users", user.uid));
     if (userDoc.exists()) {
       userRole = userDoc.data().role;
-      // Show logout, hide login/signup in nav
       document.getElementById("navLogin").style.display = "none";
       document.getElementById("navSignup").style.display = "none";
       document.getElementById("navLogout").style.display = "block";
@@ -101,7 +99,6 @@ onAuthStateChanged(auth, async (user) => {
         renderCustomerDashboard();
       }
     } else {
-      // Should not happen normally (signup creates doc)
       console.error("User document missing");
       await signOut(auth);
     }
@@ -111,7 +108,7 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById("navLogin").style.display = "block";
     document.getElementById("navSignup").style.display = "block";
     document.getElementById("navLogout").style.display = "none";
-    handleRoute(); // show home/login
+    handleRoute();
   }
 });
 
@@ -163,7 +160,6 @@ function renderLogin() {
     const password = document.getElementById("loginPassword").value;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // onAuthStateChanged will handle redirect
     } catch (error) {
       document.getElementById("loginError").textContent = error.message;
     }
@@ -201,13 +197,11 @@ function renderSignup() {
     const password = document.getElementById("signupPassword").value;
     try {
       const userCred = await createUserWithEmailAndPassword(auth, email, password);
-      // Save user role & name in Firestore
       await setDoc(doc(db, "users", userCred.user.uid), {
         name: name,
         email: email,
         role: "customer"
       });
-      // onAuthStateChanged will redirect to customer dashboard
     } catch (error) {
       document.getElementById("signupError").textContent = error.message;
     }
@@ -243,18 +237,16 @@ async function renderCustomerDashboard() {
   `;
   document.getElementById("app").innerHTML = html;
 
-  // Load barbers from Firestore (role = barber)
   const barberSelect = document.getElementById("barberSelect");
   const barbersSnap = await getDocs(query(collection(db, "users"), where("role", "==", "barber")));
   barbersSnap.forEach(doc => {
     const data = doc.data();
     const option = document.createElement("option");
-    option.value = doc.id;       // barber uid
+    option.value = doc.id;
     option.textContent = data.name;
     barberSelect.appendChild(option);
   });
 
-  // Generate time slots 9:00 AM - 5:30 PM, 30 min interval
   function generateTimeSlots() {
     const slots = [];
     for (let h = 9; h < 18; h++) {
@@ -308,12 +300,10 @@ async function renderCustomerDashboard() {
       const btn = document.createElement("button");
       btn.className = "btn btn-outline-dark slot-btn";
       btn.textContent = slot;
-      // Disable if already booked
       if (booked.includes(slot)) {
         btn.classList.add("disabled");
         btn.disabled = true;
       } else if (isToday) {
-        // Disable past times
         const [h, m] = slot.split(":").map(Number);
         const slotTime = new Date();
         slotTime.setHours(h, m, 0, 0);
@@ -324,7 +314,6 @@ async function renderCustomerDashboard() {
       }
       if (!btn.disabled) {
         btn.addEventListener("click", () => {
-          // Remove active from others
           document.querySelectorAll(".slot-btn.active").forEach(b => b.classList.remove("active"));
           btn.classList.add("active");
           bookBtn.disabled = false;
@@ -338,7 +327,6 @@ async function renderCustomerDashboard() {
   document.getElementById("bookBtn").addEventListener("click", async () => {
     const slot = document.getElementById("bookBtn").dataset.slot;
     if (!slot) return;
-    // Get barber name
     const barberDoc = await getDoc(doc(db, "users", selectedBarberId));
     const barberName = barberDoc.data().name;
     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
@@ -357,16 +345,14 @@ async function renderCustomerDashboard() {
         createdAt: serverTimestamp()
       });
       document.getElementById("bookingMsg").innerHTML = `<span class="text-success">Appointment booked!</span>`;
-      // Reset selection
       document.querySelectorAll(".slot-btn.active").forEach(b => b.classList.remove("active"));
       document.getElementById("bookBtn").disabled = true;
-      updateTimeSlots(); // refresh slots
+      updateTimeSlots();
     } catch (err) {
       document.getElementById("bookingMsg").innerHTML = `<span class="text-danger">Error: ${err.message}</span>`;
     }
   });
 
-  // Real‑time booking history for current customer
   const q = query(
     collection(db, "appointments"),
     where("customerId", "==", currentUser.uid),
@@ -385,7 +371,7 @@ async function renderCustomerDashboard() {
       const card = document.createElement("div");
       card.className = "card appointment-card p-3";
       card.innerHTML = `
-        <strong>${appt.barberName}</strong> – ${appt.date} ${appt.timeSlot} 
+        <strong>${appt.barberName}</strong> - ${appt.date} ${appt.timeSlot} 
         <span class="${statusClass} fw-bold">${appt.status.toUpperCase()}</span>
       `;
       listDiv.appendChild(card);
@@ -397,7 +383,6 @@ async function renderCustomerDashboard() {
 // ================= BARBER DASHBOARD =================
 async function renderBarberDashboard() {
   clearListeners();
-  // Fetch current barber's name
   const userDoc = await getDoc(doc(db, "users", currentUser.uid));
   const barberName = userDoc.data().name;
 
@@ -412,9 +397,7 @@ async function renderBarberDashboard() {
   document.getElementById("app").innerHTML = html;
 
   const dateInput = document.getElementById("barberDate");
-  // Real-time listener for selected date
   function listenAppointments(dateStr) {
-    // Clear previous listener
     if (currentListeners.length > 0) {
       clearListeners();
     }
@@ -439,7 +422,7 @@ async function renderBarberDashboard() {
         div.innerHTML = `
           <div>
             <strong>${appt.customerName}</strong> (${appt.customerEmail})<br>
-            Time: ${appt.timeSlot} – 
+            Time: ${appt.timeSlot} - 
             <span class="${statusClass} fw-bold">${appt.status.toUpperCase()}</span>
           </div>
           <div id="actions-${apptId}">
@@ -452,7 +435,6 @@ async function renderBarberDashboard() {
         listDiv.appendChild(div);
       });
 
-      // Add event listeners to Accept/Reject buttons
       document.querySelectorAll(".accept-btn").forEach(btn => {
         btn.addEventListener("click", async (e) => {
           const id = e.target.dataset.id;
@@ -470,7 +452,6 @@ async function renderBarberDashboard() {
   }
 
   dateInput.addEventListener("change", (e) => listenAppointments(e.target.value));
-  // Initial load
   listenAppointments(dateInput.value);
 }
 
