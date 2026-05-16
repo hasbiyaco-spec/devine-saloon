@@ -1,15 +1,24 @@
-// ================= FIREBASE CONFIG =================
-// ⚠️ अपने Firebase Project की config यहाँ डालें (Firebase Console से)
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDJQAFJQ1bYDTJ-9u40DACYf2twC1WcRpk",
   authDomain: "devine-saloon.firebaseapp.com",
   projectId: "devine-saloon",
   storageBucket: "devine-saloon.firebasestorage.app",
   messagingSenderId: "688719858618",
-  appId: "1:688719858618:web:31d588e045e078d5ffeb83"
+  appId: "1:688719858618:web:31d588e045e078d5ffeb83",
   measurementId: "G-T2LTK645YN"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 // ================= IMPORTS (CDN से) =================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
