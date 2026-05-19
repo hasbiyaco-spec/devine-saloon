@@ -6,123 +6,145 @@
     <title>Devine Saloon | Premium Grooming</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Premium Colorful Theme - Dark & Gold */
+        /* Premium Colorful Theme - Dark & Gold Optimized for Mobile */
         :root {
-            --primary-gold: #d4af37;
+            --primary-gold: #f1c40f;
             --dark-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-light: #f8f9fa;
+            --card-bg: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #e0e0e0; /* Fixed readability for labels */
         }
 
         body { 
             background-color: var(--dark-bg); 
             color: var(--text-light);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .page-view { display: none; }
-        .page-view.active { display: block; animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .page-view.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        .navbar { background-color: #000 !important; border-bottom: 2px solid var(--primary-gold); }
-        .navbar-brand { font-weight: bold; letter-spacing: 2px; color: var(--primary-gold) !important; }
+        .navbar { background-color: #000000 !important; border-bottom: 2px solid var(--primary-gold); padding: 10px 0; }
+        .navbar-brand { font-weight: bold; letter-spacing: 1px; color: var(--primary-gold) !important; font-size: 1.3rem; }
         
         /* Custom Buttons */
-        .btn-gold { background-color: var(--primary-gold); color: #000; font-weight: bold; border: none; }
-        .btn-gold:hover { background-color: #b5952f; color: #000; }
-        .btn-outline-gold { border: 2px solid var(--primary-gold); color: var(--primary-gold); font-weight: bold; }
-        .btn-outline-gold:hover { background-color: var(--primary-gold); color: #000; }
+        .btn-gold { background-color: var(--primary-gold); color: #000000; font-weight: bold; border: none; }
+        .btn-gold:hover, .btn-gold:active { background-color: #dbc1ac; color: #000000; }
+        .btn-outline-gold { border: 2px solid var(--primary-gold); color: var(--primary-gold); font-weight: bold; background: transparent; }
+        .btn-outline-gold:hover { background-color: var(--primary-gold); color: #000000; }
 
-        /* Cards & Inputs */
-        .card { background-color: var(--card-bg); border: 1px solid #333; color: white; }
-        .card-header { background-color: #000 !important; border-bottom: 1px solid var(--primary-gold); font-weight: bold; }
-        .form-control, .form-select { background-color: #2a2a2a; color: white; border: 1px solid #444; }
-        .form-control:focus, .form-select:focus { background-color: #333; color: white; border-color: var(--primary-gold); box-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+        /* Forms & Cards visibility fixes */
+        .card { background-color: var(--card-bg); border: 1px solid #2d2d2d; color: var(--text-light); border-radius: 12px; }
+        .card-header { background-color: #050505 !important; border-bottom: 1px solid var(--primary-gold); font-weight: bold; color: var(--primary-gold) !important; }
         
-        /* Hero Section with Image */
+        /* High Contrast Labels for visibility */
+        .form-label-custom { color: #ffffff !important; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; display: block; text-shadow: 1px 1px 2px #000; }
+        
+        .form-control, .form-select { background-color: #262626; color: #ffffff !important; border: 1px solid #444; padding: 10px; font-size: 0.95rem; }
+        .form-control:focus, .form-select:focus { background-color: #333; color: #ffffff; border-color: var(--primary-gold); box-shadow: 0 0 5px rgba(241, 196, 15, 0.4); }
+        
+        /* Hero Section for Mobile */
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            padding: 100px 0;
-            border-radius: 10px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80') center/cover;
+            padding: 45px 15px;
+            border-radius: 12px;
+            margin-top: 10px;
         }
+        .hero-section h1 { font-size: 1.8rem; }
+        .hero-section p { font-size: 0.95rem; }
 
-        /* Time Slot Buttons */
-        .time-slot-btn { width: 100px; margin: 5px; font-size: 0.9rem; }
-        .slot-available { border-color: #198754; color: #198754; }
-        .slot-available:hover { background-color: #198754; color: white; }
-        .slot-selected { background-color: #198754; color: white; border-color: #198754; }
-        .slot-booked { background-color: #dc3545; color: white; border-color: #dc3545; opacity: 0.7; cursor: not-allowed; }
+        /* Compact Time Slot Grid for Mobile Phones */
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns on mobile */
+            gap: 8px;
+            width: 100%;
+        }
+        .time-slot-btn { 
+            padding: 8px 4px; 
+            font-size: 0.8rem; 
+            font-weight: bold; 
+            border-radius: 6px; 
+            text-align: center;
+            border: 1px solid;
+            background: transparent;
+        }
+        .slot-available { border-color: #2ecc71; color: #2ecc71; }
+        .slot-selected { background-color: #2ecc71 !important; color: #000000 !important; border-color: #2ecc71; }
+        .slot-booked { background-color: #e74c3c !important; color: #ffffff !important; border-color: #e74c3c; opacity: 0.8; cursor: not-allowed; }
 
         /* Status colors */
-        .status-pending { color: #fd7e14; font-weight: bold; }
-        .status-accepted { color: #198754; font-weight: bold; }
-        .status-rejected { color: #dc3545; font-weight: bold; }
+        .status-pending { color: #ff9f43; font-weight: bold; }
+        .status-accepted { color: #2ecc71; font-weight: bold; }
+        .status-rejected { color: #e74c3c; font-weight: bold; }
         
-        .list-group-item { background-color: var(--card-bg); color: white; border-color: #333; }
-        .table { color: white; }
-        .table-dark { background-color: #000; }
-        .table-bordered td, .table-bordered th { border-color: #444; }
+        .list-group-item { background-color: #222222; color: #ffffff; border: 1px solid #333; margin-bottom: 8px; border-radius: 8px !important; }
+        
+        /* Mobile responsive Table/Cards for Admin */
+        .admin-card-list { display: none; }
+        
+        @media (max-width: 768px) {
+            .time-slots-grid { grid-template-columns: repeat(3, 1fr); }
+            .admin-table-view { display: none; } /* Hide large table on mobile */
+            .admin-card-list { display: block; } /* Show mobile friendly cards instead */
+            .hero-images img { margin-bottom: 15px; height: 180px; object-fit: cover; w-100; }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
+    <nav class="navbar navbar-expand navbar-dark shadow-sm">
+        <div class="container px-3">
             <a class="navbar-brand" href="#home">💈 DEVINE SALOON</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto" id="nav-links">
-                    </ul>
-            </div>
+            <ul class="navbar-nav ms-auto" id="nav-links">
+                </ul>
         </div>
     </nav>
 
-    <div class="container mt-4 mb-5" id="app-container">
+    <div class="container px-3 mt-3 mb-5" id="app-container">
 
         <div id="home" class="page-view active text-center">
-            <div class="hero-section">
-                <h1 class="display-3 fw-bold text-white mb-3" style="text-shadow: 2px 2px 4px #000;">Welcome to Devine Saloon</h1>
-                <p class="lead text-light mb-5">Premium grooming by expert barbers <strong>Ayaan</strong> & <strong>Arman</strong>.</p>
-                <div>
-                    <a href="#login" class="btn btn-gold btn-lg mx-2 px-5 rounded-pill shadow">Login</a>
-                    <a href="#signup" class="btn btn-outline-gold btn-lg mx-2 px-5 rounded-pill shadow">Sign Up</a>
+            <div class="hero-section shadow">
+                <h1 class="fw-bold text-white mb-2">Welcome to Devine Saloon</h1>
+                <p class="text-light mb-4 small">Premium grooming by expert barbers <strong>Ayaan</strong> & <strong>Arman</strong>.</p>
+                <div class="d-grid gap-2 col-11 mx-auto">
+                    <a href="#login" class="btn btn-gold btn-md rounded-pill shadow py-2">Login</a>
+                    <a href="#signup" class="btn btn-outline-gold btn-md rounded-pill shadow py-2">Sign Up</a>
                 </div>
             </div>
             
-            <div class="row mt-5">
-                <div class="col-md-4 mb-3">
-                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=500&q=80" class="img-fluid rounded shadow" alt="Haircut">
+            <div class="row mt-4 hero-images">
+                <div class="col-4 px-1">
+                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=300&q=80" class="img-fluid rounded shadow w-100" alt="Haircut">
                 </div>
-                <div class="col-md-4 mb-3">
-                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=500&q=80" class="img-fluid rounded shadow" alt="Beard Trim">
+                <div class="col-4 px-1">
+                    <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=300&q=80" class="img-fluid rounded shadow w-100" alt="Beard">
                 </div>
-                <div class="col-md-4 mb-3">
-                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=500&q=80" class="img-fluid rounded shadow" alt="Saloon Tools">
+                <div class="col-4 px-1">
+                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=300&q=80" class="img-fluid rounded shadow w-100" alt="Tools">
                 </div>
             </div>
         </div>
 
-        <div id="login" class="page-view mt-5">
+        <div id="login" class="page-view mt-3">
             <div class="row justify-content-center">
                 <div class="col-md-5">
-                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                        <div class="card-body p-5">
-                            <h3 class="text-center mb-4 text-warning">Welcome Back</h3>
+                    <div class="card shadow-lg p-3">
+                        <div class="card-body">
+                            <h4 class="text-center mb-4 text-warning fw-bold">Welcome Back</h4>
                             <form id="login-form">
                                 <div class="mb-3">
-                                    <label class="form-label text-muted">Email address</label>
-                                    <input type="email" id="login-email" class="form-control" required>
+                                    <label class="form-label-custom">Email Address</label>
+                                    <input type="email" id="login-email" class="form-control" placeholder="example@email.com" required>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="form-label text-muted">Password</label>
-                                    <input type="password" id="login-password" class="form-control" required>
+                                    <label class="form-label-custom">Password</label>
+                                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
                                 </div>
-                                <button type="submit" class="btn btn-gold w-100 py-2 rounded-pill" id="login-btn">Login</button>
-                                <p class="text-center mt-4 mb-0 text-muted">Don't have an account? <a href="#signup" class="text-warning text-decoration-none">Sign up</a></p>
+                                <button type="submit" class="btn btn-gold w-100 py-2.5 rounded-pill fw-bold" id="login-btn">Login</button>
+                                <p class="text-center mt-4 mb-0 small text-white">Don't have an account? <a href="#signup" class="text-warning text-decoration-none fw-bold">Sign up</a></p>
                             </form>
                         </div>
                     </div>
@@ -130,27 +152,27 @@
             </div>
         </div>
 
-        <div id="signup" class="page-view mt-5">
+        <div id="signup" class="page-view mt-3">
             <div class="row justify-content-center">
                 <div class="col-md-5">
-                    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-                        <div class="card-body p-5">
-                            <h3 class="text-center mb-4 text-warning">Create Account</h3>
+                    <div class="card shadow-lg p-3">
+                        <div class="card-body">
+                            <h4 class="text-center mb-4 text-warning fw-bold">Create Account</h4>
                             <form id="signup-form">
                                 <div class="mb-3">
-                                    <label class="form-label text-muted">Full Name</label>
-                                    <input type="text" id="signup-name" class="form-control" required>
+                                    <label class="form-label-custom">Full Name</label>
+                                    <input type="text" id="signup-name" class="form-control" placeholder="Your Name" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label text-muted">Email address</label>
-                                    <input type="email" id="signup-email" class="form-control" required>
+                                    <label class="form-label-custom">Email Address</label>
+                                    <input type="email" id="signup-email" class="form-control" placeholder="example@email.com" required>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="form-label text-muted">Password</label>
-                                    <input type="password" id="signup-password" class="form-control" required minlength="6">
+                                    <label class="form-label-custom">Password</label>
+                                    <input type="password" id="signup-password" class="form-control" placeholder="Min 6 characters" required minlength="6">
                                 </div>
-                                <button type="submit" class="btn btn-gold w-100 py-2 rounded-pill" id="signup-btn">Sign Up</button>
-                                <p class="text-center mt-4 mb-0 text-muted">Already have an account? <a href="#login" class="text-warning text-decoration-none">Login</a></p>
+                                <button type="submit" class="btn btn-gold w-100 py-2.5 rounded-pill fw-bold" id="signup-btn">Sign Up</button>
+                                <p class="text-center mt-4 mb-0 small text-white">Already have an account? <a href="#login" class="text-warning text-decoration-none fw-bold">Login</a></p>
                             </form>
                         </div>
                     </div>
@@ -158,17 +180,17 @@
             </div>
         </div>
 
-        <div id="customer-portal" class="page-view mt-4">
-            <h2 class="mb-4 text-warning">Hello, <span id="customer-name" class="text-white">User</span>!</h2>
+        <div id="customer-portal" class="page-view mt-2">
+            <h4 class="mb-3 text-warning fw-bold">Hello, <span id="customer-name" class="text-white">User</span>!</h4>
             
             <div class="row">
                 <div class="col-md-5 mb-4">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header text-warning fs-5">📅 Book a Slot</div>
-                        <div class="card-body">
+                    <div class="card shadow">
+                        <div class="card-header fs-6">📅 Book a Slot</div>
+                        <div class="card-body p-3">
                             <form id="booking-form">
                                 <div class="mb-3">
-                                    <label class="form-label text-muted">Select Barber</label>
+                                    <label class="form-label-custom">Select Barber</label>
                                     <select id="book-barber" class="form-select" required>
                                         <option value="">Choose Barber...</option>
                                         <option value="Ayaan">Ayaan</option>
@@ -176,72 +198,82 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label text-muted">Select Date</label>
+                                    <label class="form-label-custom">Select Date</label>
                                     <input type="date" id="book-date" class="form-control" required>
                                 </div>
                                 
                                 <div class="mb-4">
-                                    <label class="form-label text-muted">Select Available Time</label>
-                                    <div id="time-slots-container" class="d-flex flex-wrap justify-content-center border rounded p-3 bg-dark">
-                                        <p class="text-muted small w-100 text-center mb-0">Please select a Barber and Date first to see available slots.</p>
+                                    <label class="form-label-custom">Select Available Time</label>
+                                    <div id="time-slots-container" class="p-2 border rounded bg-black d-flex flex-wrap justify-content-center">
+                                        <p class="text-white small text-center my-2 opacity-75">Please select Barber & Date first.</p>
                                     </div>
                                     <input type="hidden" id="selected-time-slot" required>
                                 </div>
 
-                                <button type="submit" class="btn btn-gold w-100 py-2 fw-bold rounded-pill">Confirm Booking</button>
+                                <button type="submit" class="btn btn-gold w-100 py-2.5 fw-bold rounded-pill shadow">Confirm Booking</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-7">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header text-warning fs-5">📝 Your Appointments</div>
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush" id="customer-history-list">
-                                <li class="list-group-item text-center text-muted py-4">Loading...</li>
-                            </ul>
+                    <div class="card shadow">
+                        <div class="card-header fs-6">📝 Your Appointments</div>
+                        <div class="card-body p-2">
+                            <div class="list-group list-group-flush" id="customer-history-list">
+                                <div class="text-center text-muted py-3 small">Loading...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="barber-portal" class="page-view mt-4">
-            <h2 class="mb-4 text-warning">Barber Dashboard <span class="badge bg-light text-dark fs-6 ms-2" id="barber-badge"></span></h2>
+        <div id="barber-portal" class="page-view mt-2">
+            <h4 class="mb-3 text-warning fw-bold">All Barbers Dashboard</h4>
             
-            <div class="card shadow-lg border-0 mb-4">
-                <div class="card-body d-flex flex-wrap gap-3 align-items-center bg-dark rounded">
-                    <label class="fw-bold mb-0 text-muted">Filter by Date:</label>
-                    <input type="date" id="admin-date-filter" class="form-control w-auto">
-                    <button class="btn btn-outline-gold" id="admin-clear-filter">Clear Filter</button>
+            <div class="card shadow mb-3">
+                <div class="card-body p-3 bg-black rounded">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-12">
+                            <label class="form-label-custom m-0">Filter by Date</label>
+                        </div>
+                        <div class="col-7">
+                            <input type="date" id="admin-date-filter" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-5">
+                            <button class="btn btn-sm btn-outline-gold w-100" id="admin-clear-filter">Clear</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="table-responsive rounded shadow-lg">
-                <table class="table table-hover table-dark table-striped mb-0">
+            <div class="table-responsive rounded shadow admin-table-view">
+                <table class="table table-dark table-striped mb-0 align-middle small">
                     <thead>
                         <tr class="text-warning">
-                            <th>Date</th>
-                            <th>Time</th>
+                            <th>Date/Time</th>
                             <th>Customer Name</th>
-                            <th>Barber</th>
+                            <th>Barber Name</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="admin-appointments-list">
-                        <tr><td colspan="6" class="text-center text-muted py-4">Loading appointments...</td></tr>
+                    <tbody id="admin-appointments-table-body">
+                        <tr><td colspan="5" class="text-center text-muted py-3">Loading appointments...</td></tr>
                     </tbody>
                 </table>
             </div>
+
+            <div id="admin-appointments-cards" class="admin-card-list">
+                </div>
         </div>
 
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
         // Firebase Configuration
@@ -259,25 +291,29 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const ADMIN_EMAILS = ['ayaan@devinesaloon.com', 'arman@devinesaloon.com'];
+        // SINGLE LOGIN EMAIL FOR BOTH BARBERS CONTROL
+        const ADMIN_EMAIL = 'admin@devinesaloon.com';
+        
         let currentUser = null;
         let isAdmin = false;
         let unsubCustomer = null;
         let unsubAdmin = null;
-        let unsubSlots = null; // New listener for real-time slots
+        let unsubSlots = null;
 
-        // All possible time slots
+        // Custom Timings (9:00 AM to 9:30 PM) excluding Lunch Time (1 PM to 2 PM)
         const ALL_TIME_SLOTS = [
-            "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", 
-            "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM", 
-            "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM"
+            "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM",
+            /* 01:00 PM to 02:00 PM Removed due to Lunch Break */
+            "02:00 PM", "02:30 PM", "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM", 
+            "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM"
         ];
 
-        // Routing Logic
+        // Routing 
         function showPage(pageId) {
             document.querySelectorAll('.page-view').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.location.hash = pageId;
+            window.scrollTo(0,0);
         }
 
         function handleRoute() {
@@ -292,32 +328,29 @@
         }
         window.addEventListener('hashchange', handleRoute);
 
-        // UI Updates based on Auth
         function updateNavbar() {
             const navLinks = document.getElementById('nav-links');
             if (currentUser) {
                 navLinks.innerHTML = `
-                    <li class="nav-item"><a class="nav-link text-white fw-bold">Hi, ${currentUser.displayName || 'User'}</a></li>
-                    <li class="nav-item"><button class="btn btn-sm btn-outline-danger ms-3 mt-1 rounded-pill px-3" id="logout-btn">Logout</button></li>
+                    <li class="nav-item"><button class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 mt-1 small" id="logout-btn">Logout</button></li>
                 `;
                 document.getElementById('logout-btn').addEventListener('click', () => {
                     signOut(auth).then(() => { window.location.hash = 'home'; });
                 });
             } else {
                 navLinks.innerHTML = `
-                    <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-gold btn-sm text-dark px-3 ms-2 mt-1 rounded-pill" href="#signup">Sign Up</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning small px-2 mt-1" href="#login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-gold btn-sm text-dark px-2 mt-1 rounded-pill small" href="#signup">Sign Up</a></li>
                 `;
             }
         }
 
-        // Auth State Observer
+        // Auth Observer
         onAuthStateChanged(auth, (user) => {
             currentUser = user;
             if (user) {
-                isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
+                isAdmin = (user.email.toLowerCase() === ADMIN_EMAIL);
                 document.getElementById('customer-name').innerText = user.displayName || 'Customer';
-                document.getElementById('barber-badge').innerText = isAdmin ? user.email.split('@')[0].toUpperCase() : '';
                 updateNavbar();
                 showPage(isAdmin ? 'barber-portal' : 'customer-portal');
                 
@@ -333,43 +366,23 @@
             }
         });
 
-        // Sign Up
-        document.getElementById('signup-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('signup-btn');
-            btn.innerText = 'Creating account...'; btn.disabled = true;
-            try {
-                const name = document.getElementById('signup-name').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                await updateProfile(userCredential.user, { displayName: name });
-                window.location.reload(); 
-            } catch (error) {
-                alert(error.message);
-                btn.innerText = 'Sign Up'; btn.disabled = false;
-            }
-        });
-
         // Login
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('login-btn');
-            btn.innerText = 'Logging in...'; btn.disabled = true;
+            btn.innerText = 'Please wait...'; btn.disabled = true;
             try {
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 await signInWithEmailAndPassword(auth, email, password);
                 btn.innerText = 'Login'; btn.disabled = false;
             } catch (error) {
-                alert('Invalid Email or Password!');
+                alert('Invalid Credentials!');
                 btn.innerText = 'Login'; btn.disabled = false;
             }
         });
 
-        // ==========================================
-        // NEW LOGIC: REAL-TIME TIME SLOTS CHART
-        // ==========================================
+        // Realtime Slots Logic
         const bookDateInput = document.getElementById('book-date');
         const bookBarberInput = document.getElementById('book-barber');
         const slotsContainer = document.getElementById('time-slots-container');
@@ -380,24 +393,20 @@
             const barber = bookBarberInput.value;
 
             if (!date || !barber) {
-                slotsContainer.innerHTML = '<p class="text-muted small w-100 text-center mb-0">Please select a Barber and Date first to see available slots.</p>';
+                slotsContainer.innerHTML = '<p class="text-white opacity-75 small text-center my-2">Please select Barber & Date first.</p>';
                 hiddenTimeInput.value = '';
                 return;
             }
 
-            slotsContainer.innerHTML = '<p class="text-warning small w-100 text-center mb-0">Loading available slots...</p>';
-
-            // Stop listening to previous query if exists
+            slotsContainer.innerHTML = '<p class="text-warning small text-center my-2">Loading available slots...</p>';
             if (unsubSlots) unsubSlots();
 
-            // Query: Find all appointments for THIS date and THIS barber
             const q = query(collection(db, "appointments"), where("date", "==", date), where("barber", "==", barber));
             
             unsubSlots = onSnapshot(q, (snapshot) => {
                 let bookedSlots = [];
                 snapshot.forEach(doc => {
                     const data = doc.data();
-                    // If status is pending or accepted, the slot is blocked
                     if (data.status === 'pending' || data.status === 'accepted') {
                         bookedSlots.push(data.time);
                     }
@@ -408,66 +417,57 @@
 
         function renderTimeSlots(bookedSlots) {
             slotsContainer.innerHTML = '';
+            
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'time-slots-grid';
+            
             const currentlySelected = hiddenTimeInput.value;
-            hiddenTimeInput.value = ''; // reset
+            hiddenTimeInput.value = '';
 
             ALL_TIME_SLOTS.forEach(slot => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 const isBooked = bookedSlots.includes(slot);
 
-                btn.className = 'btn btn-sm time-slot-btn ';
+                btn.className = 'time-slot-btn';
                 btn.innerText = slot;
 
                 if (isBooked) {
                     btn.classList.add('slot-booked');
                     btn.disabled = true;
-                    btn.innerText = slot + ' (Booked)';
                 } else {
-                    btn.classList.add('btn-outline-success', 'slot-available');
-                    
-                    // Keep selection if it was selected before re-render and is still available
+                    btn.classList.add('slot-available');
                     if(slot === currentlySelected) {
                         btn.classList.add('slot-selected');
                         hiddenTimeInput.value = slot;
                     }
 
                     btn.onclick = () => {
-                        // Deselect all others
                         document.querySelectorAll('.time-slot-btn').forEach(b => {
-                            if(!b.disabled) {
-                                b.classList.remove('slot-selected');
-                                b.classList.add('btn-outline-success');
-                            }
+                            if(!b.disabled) b.classList.remove('slot-selected');
                         });
-                        // Select this one
-                        btn.classList.remove('btn-outline-success');
                         btn.classList.add('slot-selected');
                         hiddenTimeInput.value = slot;
                     };
                 }
-                slotsContainer.appendChild(btn);
+                gridDiv.appendChild(btn);
             });
+            slotsContainer.appendChild(gridDiv);
         }
 
-        // Listen for changes in Date or Barber dropdowns
         bookDateInput.addEventListener('change', fetchRealTimeSlots);
         bookBarberInput.addEventListener('change', fetchRealTimeSlots);
 
-
-        // Book Appointment Submission
+        // Booking Submission
         document.getElementById('booking-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const selectedTime = hiddenTimeInput.value;
             if (!selectedTime) {
-                alert("Please select an available Time Slot from the chart.");
+                alert("Please click and select a time slot from the green buttons.");
                 return;
             }
-
             const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerText = 'Booking...'; btn.disabled = true;
-            
+            btn.innerText = 'Processing...'; btn.disabled = true;
             try {
                 await addDoc(collection(db, "appointments"), {
                     userId: currentUser.uid,
@@ -478,27 +478,26 @@
                     status: 'pending',
                     createdAt: new Date().toISOString()
                 });
-                alert("Appointment Booked Successfully!");
+                alert("Slot Reserved successfully!");
                 e.target.reset();
                 hiddenTimeInput.value = '';
-                slotsContainer.innerHTML = '<p class="text-muted small w-100 text-center mb-0">Please select a Barber and Date first to see available slots.</p>';
+                slotsContainer.innerHTML = '<p class="text-white opacity-75 small text-center my-2">Please select Barber & Date first.</p>';
             } catch (error) {
-                alert("Error booking appointment: " + error.message);
+                alert("Error: " + error.message);
             }
             btn.innerText = 'Confirm Booking'; btn.disabled = false;
         });
 
-        // Load Customer History
+        // Load Customer Data
         function loadCustomerData() {
             const q = query(collection(db, "appointments"), where("userId", "==", currentUser.uid));
             unsubCustomer = onSnapshot(q, (snapshot) => {
                 const list = document.getElementById('customer-history-list');
                 list.innerHTML = '';
                 if (snapshot.empty) {
-                    list.innerHTML = '<li class="list-group-item text-center text-muted">No appointments found.</li>';
+                    list.innerHTML = '<div class="text-center text-muted py-3 small">No appointments yet.</div>';
                     return;
                 }
-                
                 let appointments = [];
                 snapshot.forEach(doc => appointments.push({ id: doc.id, ...doc.data() }));
                 appointments.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -506,33 +505,38 @@
                 appointments.forEach(appt => {
                     const statusClass = `status-${appt.status.toLowerCase()}`;
                     list.innerHTML += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center mb-2 rounded border-0 shadow-sm" style="background-color: #2a2a2a;">
-                            <div>
-                                <span class="text-warning">🗓️ ${appt.date}</span> at <span class="text-info fw-bold">⏰ ${appt.time}</span><br>
-                                <small class="text-light">✂️ Barber: ${appt.barber}</small>
+                        <div class="list-group-item p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="text-warning fw-bold small">🗓️ ${appt.date} - ⏰ ${appt.time}</div>
+                                    <div class="text-light small mt-1">✂️ Barber: ${appt.barber}</div>
+                                </div>
+                                <span class="small text-uppercase ${statusClass}">${appt.status}</span>
                             </div>
-                            <span class="text-uppercase border px-2 py-1 rounded small ${statusClass}" style="border-color: currentColor !important;">${appt.status}</span>
-                        </li>
+                        </div>
                     `;
                 });
             });
         }
 
-        // Load Admin Appointments
+        // Single Admin Dashboard Logic for both barbers combined
         function loadAdminData() {
             let q = collection(db, "appointments");
             unsubAdmin = onSnapshot(q, (snapshot) => {
                 let appointments = [];
                 snapshot.forEach(doc => appointments.push({ id: doc.id, ...doc.data() }));
                 window.allAdminAppointments = appointments.sort((a, b) => new Date(b.date) - new Date(a.date));
-                renderAdminTable();
+                renderAdminDashboard();
             });
         }
 
-        function renderAdminTable() {
-            const tbody = document.getElementById('admin-appointments-list');
+        function renderAdminDashboard() {
+            const tbody = document.getElementById('admin-appointments-table-body');
+            const cardContainer = document.getElementById('admin-appointments-cards');
             const dateFilter = document.getElementById('admin-date-filter').value;
+            
             tbody.innerHTML = '';
+            cardContainer.innerHTML = '';
 
             let data = window.allAdminAppointments || [];
             if (dateFilter) {
@@ -540,7 +544,8 @@
             }
 
             if (data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">No appointments found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">No bookings found.</td></tr>';
+                cardContainer.innerHTML = '<div class="text-center text-muted py-3 small">No bookings found.</div>';
                 return;
             }
 
@@ -549,22 +554,38 @@
                 let actionBtns = '';
                 if (appt.status === 'pending') {
                     actionBtns = `
-                        <button class="btn btn-sm btn-success me-1 rounded-pill" onclick="updateStatus('${appt.id}', 'accepted')">Accept</button>
-                        <button class="btn btn-sm btn-danger rounded-pill" onclick="updateStatus('${appt.id}', 'rejected')">Reject</button>
+                        <button class="btn btn-xs btn-success py-1 px-2 rounded-pill font-weight-bold small me-1" onclick="updateStatus('${appt.id}', 'accepted')">Accept</button>
+                        <button class="btn btn-xs btn-danger py-1 px-2 rounded-pill font-weight-bold small" onclick="updateStatus('${appt.id}', 'rejected')">Reject</button>
                     `;
                 } else {
-                    actionBtns = `<span class="badge bg-secondary">Handled</span>`;
+                    actionBtns = `<span class="badge bg-secondary p-1">Completed</span>`;
                 }
 
+                // Render for Laptop/Desktop Table
                 tbody.innerHTML += `
                     <tr>
-                        <td class="text-warning">${appt.date}</td>
-                        <td class="fw-bold text-info">${appt.time}</td>
+                        <td><span class="text-warning fw-bold">${appt.date}</span><br><small class="text-info">${appt.time}</small></td>
                         <td>${appt.customerName}</td>
-                        <td>${appt.barber}</td>
-                        <td class="${statusClass} text-uppercase">${appt.status}</td>
+                        <td class="fw-bold">${appt.barber}</td>
+                        <td class="${statusClass} text-uppercase small">${appt.status}</td>
                         <td>${actionBtns}</td>
                     </tr>
+                `;
+
+                // Render Mobile Responsive View Cards
+                cardContainer.innerHTML += `
+                    <div class="card p-3 mb-2 bg-dark border-secondary">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-warning small fw-bold">🗓️ ${appt.date}</span>
+                            <span class="text-info small fw-bold">⏰ ${appt.time}</span>
+                        </div>
+                        <div class="small mb-1">👤 Customer: <strong>${appt.customerName}</strong></div>
+                        <div class="small mb-2">✂️ Barber: <strong class="text-warning">${appt.barber}</strong></div>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary">
+                            <span class="small text-uppercase ${statusClass}">${appt.status}</span>
+                            <div>${actionBtns}</div>
+                        </div>
+                    </div>
                 `;
             });
         }
@@ -573,18 +594,17 @@
             try {
                 await updateDoc(doc(db, "appointments", id), { status: newStatus });
             } catch (error) {
-                alert("Error updating status: " + error.message);
+                alert("Error updating: " + error.message);
             }
         };
 
-        // Date Filter Listeners
-        document.getElementById('admin-date-filter').addEventListener('change', renderAdminTable);
+        document.getElementById('admin-date-filter').addEventListener('change', renderAdminDashboard);
         document.getElementById('admin-clear-filter').addEventListener('click', () => {
             document.getElementById('admin-date-filter').value = '';
-            renderAdminTable();
+            renderAdminDashboard();
         });
 
-        // Ensure Date Pickers cannot select past dates easily (Bonus feature)
+        // Block past dates in customer calendar
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('book-date').setAttribute('min', today);
 
